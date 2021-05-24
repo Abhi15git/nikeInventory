@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .container {
+        width: 90%;
+        height: 90vh;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 25% 75%;
+      }
+      .container > div {
+        border: 1px solid rgba(187, 186, 186, 0.699);
+      }
+      .addProd {
+        background-color: rgba(252, 222, 196, 0.281);
+      }
+      .form {
+        padding-top: 100px;
+        width: fit-content;
+        height: fit-content;
+        margin: auto;
+      }
+      form > input {
+        border: 1px solid grey;
+        border-radius: 5px;
+        padding: 5px;
+        box-shadow: 2px 2px 8px grey;
+      }
+      button {
+        background-color: yellowgreen;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        color: white;
+        font-weight: bold;
+        box-shadow: 2px 2px 8px yellowgreen;
+      }
+      button:hover {
+        background-color: rgba(196, 241, 106, 0.87);
+        color: white;
+        text-shadow: 1px 1px 5px black;
+      }
+      .showProd {
+        background-color: aliceblue;
+        padding: 40px;
+        grid-gap: 20px;
+        display: grid;
+        grid-template-columns: auto auto auto;
+      }
+      .product {
+        padding-inline: 5px;
+        width: 230px;
+        border-radius: 20px;
+        border: 2px solid rgba(172, 169, 169, 0.541);
+        height: 40vh;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        background-color: rgba(245, 222, 179, 0.658);
+        box-shadow: 2px 2px 8px grey;
+      }
+      .img {
+        border-radius: 20px;
+        width: 100%;
+        box-shadow: 2px 2px 8px black;
+      }
+      .btn {
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="addProd">
+        <div class="form">
+          <form action="">
+            <input id="name" type="text" placeholder="Name" /><br /><br />
+            <input id="price" type="number" placeholder="Price" /><br /><br />
+            <input
+              id="info"
+              type="text"
+              placeholder="Description"
+            /><br /><br />
+            <input
+              id="time"
+              type="text"
+              placeholder="Estimated Delivery"
+            /><br /><br />
+            <input
+              id="img"
+              type="text"
+              placeholder="Image url (optional)"
+            /><br /><br />
+          </form>
+
+          <button onclick="addProd()">Add Product</button>
+        </div>
+      </div>
+      <div class="showProd"></div>
+    </div>
+  </body>
+  <script>
+    var x = 0;
+    function addProd() {
+      var showProd = document.querySelector(".showProd");
+      var name = document.querySelector("#name");
+      var price = document.querySelector("#price");
+      var info = document.querySelector("#info");
+      var time = document.querySelector("#time");
+      var img = document.querySelector("#img");
+      if (
+        name.value == "" ||
+        price.value == "" ||
+        info.value == "" ||
+        time.value == ""
+      )
+        alert("Please fill all the details");
+      else {
+        var item = document.createElement("div");
+        item.setAttribute("id", `${++x}`);
+        item.innerHTML = `<img src="${img.value}" class="img" alt='NO IMAGE'><h2>${name.value}</h2><span id='price${x}'>₹${price.value}/-</span><p><b>Product Description :</b><br>${info.value}</p><p><b>Estimated Delivery :</b> ${time.value}</p>`;
+        item.setAttribute("class", "product");
+        var div = document.createElement("div");
+        div.setAttribute("class", "btn");
+        var rmv = document.createElement("button");
+        var upd = document.createElement("button");
+        rmv.innerText = "Remove";
+        upd.innerText = "Update";
+        rmv.setAttribute("onclick", `removeProd(${x})`);
+        upd.setAttribute("onclick", `updProd(${x})`);
+        showProd.append(item);
+        item.appendChild(div);
+        div.appendChild(rmv);
+        div.appendChild(upd);
+      }
+    }
+    function removeProd(id) {
+      var prod = document.getElementById(`${id}`);
+      prod.remove();
+    }
+    function updProd(d) {
+      var prod = document.querySelector(`#price${d}`);
+
+      var new_price = prompt(`Enter new price`);
+      prod.innerText = `₹${new_price}`;
+    }
+  </script>
+</html>
